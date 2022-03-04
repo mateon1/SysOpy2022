@@ -1,10 +1,9 @@
-#include <stdio.h> // printf
+#include <stdio.h> // printf, fprintf
 #include <stdlib.h> // atoi
 #include <string.h> // strcmp
 #include <assert.h> // assert
 #include <sys/time.h> // clock_t
 #include <sys/times.h> // struct tms, times
-#include <sched.h>
 
 #include "libwc.h"
 
@@ -16,6 +15,8 @@ typedef struct command_t {
     char* name;
     int (*func)(int, char**);
 } command_t;
+
+static libwc_context wc_ctx;
 
 int com_timer(int left, char **args) {
     assert(left >= 1);
@@ -40,11 +41,13 @@ int com_endtimer(int left, char **args) {
     return 0;
 }
 
-int com_waste(int left, char **args) {
+int com_count(int left, char **args) {
     assert(left >= 1);
-    unsigned loops = atoi(args[0]);
-    for (unsigned i = 0; i < loops; i++) {
-        sched_yield();
+    libwc_stats_to_tmpfile(wc_ctx, args[0]);
+    int res = libwc_load_result(wc_ctx);
+    if (res < 0) {
+        fprintf(stderr, "Failed to load wc result\n");
+        exit(1);
     }
     return 1;
 }
@@ -54,14 +57,17 @@ int com_waste(int left, char **args) {
 static command_t commands[] = {
     COMMAND(timer),
     COMMAND(endtimer),
-    COMMAND(waste)
+    COMMAND(count),
 };
+
 
 int main(int argc, char** argv) {
 
     // Skip argv[0] - program name
     char **args = argv + 1;
     int left = argc - 1;
+
+    wc_ctx = libwc_create();
 
     int i = 0;
     while (left > 0 && i < sizeof(commands) / sizeof(commands[0])) {

@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all clean libwc
 
 CFLAGS += -I ./libwc
 
@@ -6,5 +6,8 @@ all: main
 clean:
 	rm -f main
 
-main: main.c
-	$(LINK.c) $< -o $@
+main: main.c | libwc
+	$(LINK.c) $< libwc/libwc.a -o $@
+
+libwc:
+	$(MAKE) -C libwc
