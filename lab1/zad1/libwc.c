@@ -140,16 +140,16 @@ int32_t libwc_load_result(libwc_context ctx) {
 
     size_t idx = ctx->len++;
     assert(ctx->data[idx] == NULL);
-    ctx->data[idx] = calloc(1, size + 1); // +1 for final NUL byte
+    ctx->data[idx] = calloc(1, (size_t)size + 1); // +1 for final NUL byte
     if (ctx->data[idx] == NULL) {
         ctx->len--;
         return -1;
     }
 
-    size_t written = fread(ctx->data[idx], 1, size - written, f);
+    size_t written = fread(ctx->data[idx], 1, size, f);
 
     assert(feof(f));
-    assert(written == size);
+    assert(written == (size_t)size);
 
     int err = fclose(f);
     assert(err == 0 && "fclose() failed");
@@ -158,7 +158,7 @@ int32_t libwc_load_result(libwc_context ctx) {
 }
 
 bool libwc_del_result(libwc_context ctx, int32_t handle) {
-    if (handle < 0 || handle >= ctx->len) return false;
+    if (handle < 0 || (size_t)handle >= ctx->len) return false;
     if (ctx->data[handle] == NULL) return false;
 
     free(ctx->data[handle]);
@@ -171,6 +171,6 @@ bool libwc_del_result(libwc_context ctx, int32_t handle) {
 // Returns a reference to a managed result.
 // Lifetime note: The resulting pointer is only valid as long as the context remains unmodified, calling libwc_load_result or libwc_del_result (or libwc_destroy) may invalidate the pointer.
 char* libwc_get_result(libwc_context ctx, int32_t handle) {
-    assert(handle >= 0 && handle < ctx->len);
+    assert(handle >= 0 && (size_t)handle < ctx->len);
     return ctx->data[handle];
 }
