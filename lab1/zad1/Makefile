@@ -8,7 +8,7 @@ libwc.a: libwc.o
 	$(AR) rcs libwc.a libwc.o
 
 libwc.so.1.0.0: libwc.c
-	$(CC) -shared -Wl,-soname,libwc.so.1 $< -o $@
+	$(LINK.c) -fPIC -shared -Wl,-soname,libwc.so.1 $< -o $@
 
 libwc.so libwc.so.1: libwc.so.1.0.0
 	ln -s $< $@
