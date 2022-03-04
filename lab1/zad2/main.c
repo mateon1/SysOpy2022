@@ -52,12 +52,21 @@ int com_count(int left, char **args) {
     return 1;
 }
 
+int com_del(int left, char **args) {
+    assert(left >= 1);
+    int idx = atoi(args[0]);
+    bool res = libwc_del_result(wc_ctx, idx);
+    assert(res);
+    return 1;
+}
+
 #define COMMAND(FUNC) (command_t) {.name = #FUNC, .func = & com_##FUNC }
 
 static command_t commands[] = {
     COMMAND(timer),
     COMMAND(endtimer),
     COMMAND(count),
+    COMMAND(del),
 };
 
 
@@ -72,6 +81,7 @@ int main(int argc, char** argv) {
     int i = 0;
     while (left > 0 && i < sizeof(commands) / sizeof(commands[0])) {
         if (strcmp(*args, commands[i].name) == 0) {
+            printf("> Run command %s\n", commands[i].name);
             // Consume command name
             args += 1; left -= 1;
             int consumed = commands[i].func(left, args);
@@ -79,8 +89,9 @@ int main(int argc, char** argv) {
             args += consumed; left -= consumed;
             // Restart loop over commands
             i = 0;
+        } else {
+            i++;
         }
-        i++;
     }
 
     if (left > 0) {
