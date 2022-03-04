@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-./main \
+LD_LIBRARY_PATH=./libwc "$1" \
  timer "Small file (Makefile)" \
   count "Makefile" \
  endtimer \
@@ -7,7 +7,7 @@
   count "../zad1/libwc.c" \
  endtimer \
  timer "Big file (main)" \
-  count "../zad2/main" \
+  count "../zad2/main-static" \
  endtimer \
  timer "10 small files (Makefile)" \
   count "$(yes Makefile | head -10 | tr '\n' ' ')" \
@@ -16,7 +16,7 @@
   count "$(yes ../zad1/libwc.c | head -10 | tr '\n' ' ')" \
  endtimer \
  timer "10 big files (main)" \
-  count "$(yes ../zad2/main | head -10 | tr '\n' ' ')" \
+  count "$(yes ../zad2/main-static | head -10 | tr '\n' ' ')" \
  endtimer \
  timer "Delete blocks" \
   del 0 \

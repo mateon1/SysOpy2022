@@ -1,0 +1,8 @@
+    Small file (Makefile):   0 real,   0 user (+  0 children),   0 system (+  0 children)
+    Medium file (libwc.c):   1 real,   0 user (+  0 children),   0 system (+  0 children)
+          Big file (main):   4 real,   0 user (+  4 children),   0 system (+  0 children)
+10 small files (Makefile):   0 real,   0 user (+  0 children),   0 system (+  1 children)
+10 medium files (libwc.c):   1 real,   0 user (+  1 children),   0 system (+  0 children)
+      10 big files (main):  30 real,   0 user (+ 28 children),   0 system (+  0 children)
+            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
+      Add & delete blocks:   5 real,   0 user (+  4 children),   0 system (+  2 children)

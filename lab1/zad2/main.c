@@ -1,3 +1,4 @@
+// Mateusz Naściszewski, 2022
 #include <stdio.h> // printf, fprintf
 #include <stdlib.h> // atoi
 #include <string.h> // strcmp
@@ -5,7 +6,11 @@
 #include <sys/time.h> // clock_t
 #include <sys/times.h> // struct tms, times
 
+#ifdef DYNAMIC
+#include "dynwc.h"
+#else
 #include "libwc.h"
+#endif
 
 static char* timer_name;
 static struct tms start_tm, end_tm;
@@ -30,7 +35,7 @@ int com_endtimer(int left, char **args) {
 
     end_clk = times(&end_tm);
 
-    printf("%s: %ld real, %ld user (+%ld children), %ld system (+%ld children)\n",
+    printf("%25s: %3ld real, %3ld user (+%3ld children), %3ld system (+%3ld children)\n",
         timer_name,
         end_clk - start_clk,
         end_tm.tms_utime - start_tm.tms_utime,
@@ -71,6 +76,9 @@ static command_t commands[] = {
 
 
 int main(int argc, char** argv) {
+#ifdef DYNAMIC
+    dyn_init();
+#endif
 
     // Skip argv[0] - program name
     char **args = argv + 1;
@@ -81,7 +89,7 @@ int main(int argc, char** argv) {
     int i = 0;
     while (left > 0 && i < sizeof(commands) / sizeof(commands[0])) {
         if (strcmp(*args, commands[i].name) == 0) {
-            printf("> Run command %s\n", commands[i].name);
+            //printf("> Run command %s\n", commands[i].name);
             // Consume command name
             args += 1; left -= 1;
             int consumed = commands[i].func(left, args);
