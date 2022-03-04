@@ -5,7 +5,7 @@
 #include <stdbool.h> // bool
 #include <stdint.h> // (u)intX_t
 
-#ifndef _LIBWC_NO_OPQAUE_TYPES
+#ifndef _LIBWC_NO_OPAQUE_TYPES
 typedef void* libwc_context;
 #endif
 
@@ -24,12 +24,11 @@ void libwc_destroy(libwc_context);
 // --- Functionality ---
 
 // Performs a `wc` count for the specified files, separated by spaces, and saves the result into a temporary file.
-void libwc_read_to_tmpfile(libwc_context, char* filepaths);
+void libwc_stats_to_tmpfile(libwc_context, char* filepaths);
 
 // Loads result from the temporary file.
 // If successful, returns a non-negative integer handle to an internal results table.
-// If unsuccessful, but the libwc context is left in a valid state, returns -1.
-// Otherwise, returns -2 or less, and the context must be destroyed without any further use.
+// If unsuccessful, returns -1.
 int32_t libwc_load_result(libwc_context);
 
 // Delete result matching a given handle.
