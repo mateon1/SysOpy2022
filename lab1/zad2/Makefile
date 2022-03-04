@@ -1,6 +1,6 @@
 .PHONY: all clean rclean libwc
 
-CFLAGS += -I ./libwc
+CFLAGS += -Wall -I ./libwc
 SHAREDFLAGS = -L ./libwc
 
 all: main-shared main-static main-dynamic

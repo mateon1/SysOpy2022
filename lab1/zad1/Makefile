@@ -1,5 +1,7 @@
 .PHONY: all clean
 
+CFLAGS += -Wall
+
 all: libwc.a libwc.so libwc.so.1
 clean:
 	rm -f libwc.a libwc.o libwc.so*
