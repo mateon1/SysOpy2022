@@ -2,7 +2,7 @@
 
 all: libwc.a libwc.so libwc.so.1
 clean:
-	rm -rf libwc.a libwc.o libwc.so*
+	rm -f libwc.a libwc.o libwc.so*
 
 libwc.a: libwc.o
 	$(AR) rcs libwc.a libwc.o
