@@ -1,0 +1,14 @@
+.PHONY: all clean
+
+all: libwc.a libwc.so libwc.so.1
+clean:
+	rm -rf libwc.a libwc.o libwc.so*
+
+libwc.a: libwc.o
+	$(AR) rcs libwc.a libwc.o
+
+libwc.so.1.0.0: libwc.c
+	$(CC) -shared -Wl,-soname,libwc.so.1 $< -o $@
+
+libwc.so libwc.so.1: libwc.so.1.0.0
+	ln -s $< $@

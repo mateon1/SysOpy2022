@@ -8,6 +8,7 @@
 #include <assert.h> // assert
 #include <unistd.h> // unlink
 #include <stdio.h> // fopen, fseeko, ftello, fread
+#include <sys/types.h> // off_t
 
 typedef struct libwc_context {
     // Unowned pointer
@@ -99,14 +100,15 @@ void libwc_stats_to_tmpfile(libwc_context ctx, char* filepaths) {
     strcat(p, "wc >");
     p += 4;
 
-    for (char *t = ctx->tmp; *t; t++) {
+    for (char *t = ctx->tmpfile; *t; t++) {
         if (!is_arg_safe(*t)) *p++ = '\\';
         *p++ = *t++;
     }
 
     *p++ = ' ';
 
-    for (char *a = filepaths, bool start = true; *a; a++) {
+    bool start = true;
+    for (char *a = filepaths; *a; a++) {
         if (start && *a == '-') {
             *p++ = '.';
             *p++ = '/';
@@ -118,24 +120,27 @@ void libwc_stats_to_tmpfile(libwc_context ctx, char* filepaths) {
     }
 
     // "wc >TMPFILE file1 file\$\#\! ./-file- /path/to/file"
-    system(sysbuf);
+    int err = system(sysbuf);
+    assert(err == 0 && "system() call failed");
 
     free(sysbuf);
 }
 int32_t libwc_load_result(libwc_context ctx) {
     if (!ensure_space(ctx)) return -1;
 
-    FILE *f = fopen(ctx->filename, "rb");
+    FILE *f = fopen(ctx->tmpfile, "rb");
     if (f == NULL) return -1;
 
     // Calculate file size
-    if (fseeko(f, 0, SEEK_END) != 0) return -1
-    off_t size = ftello(fp);
+    if (fseeko(f, 0, SEEK_END) != 0) return -1;
+    off_t size = ftello(f);
     if (size == -1) return -1;
+    // Return to beginning
+    if (fseeko(f, 0, SEEK_SET) != 0) return -1;
 
     size_t idx = ctx->len++;
     assert(ctx->data[idx] == NULL);
-    ctx->data[idx] = calloc(size + 1); // +1 for final NUL byte
+    ctx->data[idx] = calloc(1, size + 1); // +1 for final NUL byte
     if (ctx->data[idx] == NULL) {
         ctx->len--;
         return -1;
