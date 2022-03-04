@@ -1,4 +1,4 @@
-.PHONY: stat dyn clean test
+.PHONY: stat dyn clean test rebuild
 
 clean:
 	$(MAKE) -C ../zad2 rclean
@@ -19,3 +19,6 @@ test:
 		echo === DYNAMIC ===; \
 		./main-invocation.sh ./main-dynamic; \
 	) > results3a.txt
+
+rebuild:
+	./rebuild.sh
