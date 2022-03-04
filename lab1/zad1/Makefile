@@ -11,4 +11,4 @@ libwc.so.1.0.0: libwc.c
 	$(LINK.c) -fPIC -shared -Wl,-soname,libwc.so.1 $< -o $@
 
 libwc.so libwc.so.1: libwc.so.1.0.0
-	ln -s $< $@
+	rm -f $@ && ln -s $< $@

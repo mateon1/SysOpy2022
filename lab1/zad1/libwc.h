@@ -15,7 +15,7 @@ typedef void* libwc_context;
 libwc_context libwc_create(void);
 // Creates an empty libwc context with a custom temporary filepath
 // Lifetime note: the path string must not be freed before calling libwc_destroy
-libwc_context libwc_create_tmpfile(char* tmpfile);
+libwc_context libwc_create_custom(char* tmpfile);
 
 // Destroys the libwc context and frees all allocated data.
 // Removes the temporary file, if it exists.

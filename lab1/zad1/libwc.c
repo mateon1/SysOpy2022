@@ -41,6 +41,7 @@ static bool ensure_space(libwc_context ctx) {
     memcpy(new_data, ctx->data, ctx->len * sizeof(char*));
     free(ctx->data);
 
+    ctx->cap = new_size;
     ctx->data = new_data;
     return true;
 }
@@ -54,7 +55,7 @@ libwc_context libwc_create(void) {
     // ctx->data = NULL;
     return ctx;
 }
-libwc_context libwc_create_tmpfile(char* tmpfile) {
+libwc_context libwc_create_custom(char* tmpfile) {
     assert(tmpfile != NULL);
     assert(strlen(tmpfile) > 0);
     assert(tmpfile[0] != ' ');
@@ -86,6 +87,7 @@ void libwc_destroy(libwc_context ctx) {
 static bool is_arg_safe(char c) {
     if ('-' <= c && c <= ':') return true;
     if ('@' <= c && c <= 'Z') return true;
+    if ('a' <= c && c <= 'z') return true;
     return c == '_' || c == '~' || c == '@' || c == '+';
 }
 
@@ -102,7 +104,7 @@ void libwc_stats_to_tmpfile(libwc_context ctx, char* filepaths) {
 
     for (char *t = ctx->tmpfile; *t; t++) {
         if (!is_arg_safe(*t)) *p++ = '\\';
-        *p++ = *t++;
+        *p++ = *t;
     }
 
     *p++ = ' ';
@@ -114,12 +116,13 @@ void libwc_stats_to_tmpfile(libwc_context ctx, char* filepaths) {
             *p++ = '/';
         }
         start = false;
-        if (!is_arg_safe(*a)) *p++ = '\\';
+        if (!is_arg_safe(*a) && *a != ' ') *p++ = '\\';
+        *p++ = *a;
         if (*a == ' ') start = true;
-        *p++ = *a++;
     }
 
     // "wc >TMPFILE file1 file\$\#\! ./-file- /path/to/file"
+    // printf("System: %s\n", sysbuf);
     int err = system(sysbuf);
     assert(err == 0 && "system() call failed");
 
@@ -148,7 +151,6 @@ int32_t libwc_load_result(libwc_context ctx) {
 
     size_t written = fread(ctx->data[idx], 1, size, f);
 
-    assert(feof(f));
     assert(written == (size_t)size);
 
     int err = fclose(f);
