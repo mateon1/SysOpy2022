@@ -19,7 +19,7 @@ static-compile:
 	if [ -d /nix ]; then \
 		nix-shell -p glibc.static --run "$(MAKE) main-static"; \
 	else \
-		$(MAKE) static-compile; \
+		$(MAKE) main-static; \
 	fi
 
 main-dynamic: main.c | libwc

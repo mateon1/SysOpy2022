@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 LD_LIBRARY_PATH=./libwc "$1" \
+ header \
  timer "Small file" \
   count "../zad2/data/rand1K.txt" \
  endtimer \

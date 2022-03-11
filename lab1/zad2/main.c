@@ -23,6 +23,13 @@ typedef struct command_t {
 
 static libwc_context wc_ctx;
 
+int com_header(int left, char **args) {
+    printf("%20s\treal\tuser\tuchld\tsystem\tschld\n",
+        "tick counts (10ms)");
+
+    return 0;
+}
+
 int com_timer(int left, char **args) {
     assert(left >= 1);
     timer_name = args[0];
@@ -35,7 +42,7 @@ int com_endtimer(int left, char **args) {
 
     end_clk = times(&end_tm);
 
-    printf("%25s: %3ld real, %3ld user (+%3ld children), %3ld system (+%3ld children)\n",
+    printf("%20s\t%3ld\t%3ld\t%3ld\t%3ld\t%3ld\n",
         timer_name,
         end_clk - start_clk,
         end_tm.tms_utime - start_tm.tms_utime,
@@ -68,6 +75,7 @@ int com_del(int left, char **args) {
 #define COMMAND(FUNC) (command_t) {.name = #FUNC, .func = & com_##FUNC }
 
 static command_t commands[] = {
+    COMMAND(header),
     COMMAND(timer),
     COMMAND(endtimer),
     COMMAND(count),

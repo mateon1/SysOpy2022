@@ -1,142 +1,159 @@
 ===== Optimize level -O0 =====
 === STATIC ===
-               Small file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   3 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   0 real,   0 user (+  1 children),   0 system (+  1 children)
-          10 medium files:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-             10 big files:  16 real,   0 user (+ 15 children),   0 system (+  1 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   4 real,   0 user (+  3 children),   0 system (+  2 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  1	  0	  0	  0	  0
+         Medium file	  1	  0	  0	  0	  0
+            Big file	  2	  0	  2	  0	  0
+      10 small files	  1	  0	  1	  0	  1
+     10 medium files	  0	  0	  0	  0	  0
+        10 big files	 18	  0	 16	  0	  1
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  4	  0	  3	  0	  2
 === SHARED ===
-               Small file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   2 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   1 real,   0 user (+  1 children),   0 system (+  1 children)
-          10 medium files:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-             10 big files:  17 real,   0 user (+ 15 children),   0 system (+  1 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   4 real,   0 user (+  2 children),   0 system (+  3 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  0	  0	  0	  0	  0
+         Medium file	  1	  0	  0	  0	  0
+            Big file	  2	  0	  2	  0	  0
+      10 small files	  1	  0	  1	  0	  0
+     10 medium files	  0	  0	  0	  0	  1
+        10 big files	 17	  0	 15	  0	  1
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  4	  0	  3	  0	  1
 === DYNAMIC ===
-               Small file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   3 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-          10 medium files:   1 real,   0 user (+  1 children),   0 system (+  0 children)
-             10 big files:  16 real,   0 user (+ 15 children),   0 system (+  1 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   4 real,   0 user (+  2 children),   0 system (+  2 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  1	  0	  0	  0	  0
+         Medium file	  1	  0	  0	  0	  0
+            Big file	  2	  0	  2	  0	  0
+      10 small files	  0	  0	  1	  0	  0
+     10 medium files	  1	  0	  0	  0	  1
+        10 big files	 17	  0	 16	  0	  0
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  4	  0	  2	  0	  2
+
 ===== Optimize level -O1 =====
 === STATIC ===
-               Small file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   2 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-          10 medium files:   1 real,   0 user (+  1 children),   0 system (+  1 children)
-             10 big files:  16 real,   0 user (+ 15 children),   0 system (+  1 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   4 real,   0 user (+  1 children),   0 system (+  2 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  1	  0	  0	  0	  0
+         Medium file	  0	  0	  0	  0	  0
+            Big file	  3	  0	  2	  0	  0
+      10 small files	  0	  0	  1	  0	  1
+     10 medium files	  1	  0	  0	  0	  0
+        10 big files	 16	  0	 16	  0	  1
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  5	  0	  1	  0	  3
 === SHARED ===
-               Small file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   3 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-          10 medium files:   1 real,   0 user (+  1 children),   0 system (+  1 children)
-             10 big files:  16 real,   0 user (+ 15 children),   0 system (+  1 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   5 real,   0 user (+  2 children),   0 system (+  2 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  1	  0	  0	  0	  0
+         Medium file	  0	  0	  0	  0	  0
+            Big file	  3	  0	  2	  0	  0
+      10 small files	  0	  0	  1	  0	  1
+     10 medium files	  1	  0	  0	  0	  0
+        10 big files	 18	  0	 17	  0	  1
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  4	  0	  2	  0	  2
 === DYNAMIC ===
-               Small file:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   3 real,   0 user (+  3 children),   0 system (+  0 children)
-           10 small files:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-          10 medium files:   1 real,   0 user (+  0 children),   0 system (+  1 children)
-             10 big files:  17 real,   0 user (+ 17 children),   0 system (+  1 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   4 real,   0 user (+  2 children),   0 system (+  2 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  1	  0	  0	  0	  0
+         Medium file	  1	  0	  0	  0	  0
+            Big file	  2	  0	  2	  0	  0
+      10 small files	  0	  0	  1	  0	  0
+     10 medium files	  1	  0	  0	  0	  0
+        10 big files	 17	  0	 16	  0	  1
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  6	  0	  3	  0	  3
+
 ===== Optimize level -O2 =====
 === STATIC ===
-               Small file:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   2 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-          10 medium files:   0 real,   0 user (+  1 children),   0 system (+  1 children)
-             10 big files:  16 real,   0 user (+ 15 children),   0 system (+  0 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   5 real,   0 user (+  2 children),   0 system (+  3 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  1	  0	  0	  0	  0
+         Medium file	  0	  0	  0	  0	  0
+            Big file	  2	  0	  2	  0	  1
+      10 small files	  1	  0	  0	  0	  0
+     10 medium files	  0	  0	  0	  0	  0
+        10 big files	 16	  0	 15	  0	  1
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  5	  0	  3	  0	  2
 === SHARED ===
-               Small file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   2 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   1 real,   0 user (+  0 children),   0 system (+  1 children)
-          10 medium files:   1 real,   0 user (+  1 children),   0 system (+  0 children)
-             10 big files:  16 real,   0 user (+ 15 children),   0 system (+  1 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   5 real,   0 user (+  3 children),   0 system (+  2 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  1	  0	  0	  0	  0
+         Medium file	  1	  0	  0	  0	  0
+            Big file	  2	  0	  3	  0	  0
+      10 small files	  1	  0	  0	  0	  0
+     10 medium files	  0	  0	  0	  0	  1
+        10 big files	 17	  0	 17	  0	  0
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  5	  0	  2	  0	  2
 === DYNAMIC ===
-               Small file:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   2 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   1 real,   0 user (+  0 children),   0 system (+  1 children)
-          10 medium files:   0 real,   0 user (+  1 children),   0 system (+  0 children)
-             10 big files:  16 real,   0 user (+ 15 children),   0 system (+  0 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   4 real,   0 user (+  2 children),   0 system (+  2 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  1	  0	  0	  0	  0
+         Medium file	  0	  0	  0	  0	  0
+            Big file	  3	  0	  2	  0	  1
+      10 small files	  1	  0	  1	  0	  0
+     10 medium files	  0	  0	  0	  0	  0
+        10 big files	 17	  0	 16	  0	  1
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  4	  0	  2	  0	  2
 
 ===== Optimize level -O3 =====
 === STATIC ===
-               Small file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   3 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   0 real,   0 user (+  0 children),   0 system (+  1 children)
-          10 medium files:   1 real,   0 user (+  1 children),   0 system (+  0 children)
-             10 big files:  16 real,   0 user (+ 15 children),   0 system (+  1 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   5 real,   0 user (+  2 children),   0 system (+  2 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  1	  0	  0	  0	  0
+         Medium file	  0	  0	  0	  0	  0
+            Big file	  3	  0	  2	  0	  1
+      10 small files	  0	  0	  1	  0	  0
+     10 medium files	  1	  0	  0	  0	  0
+        10 big files	 18	  0	 17	  0	  0
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  5	  0	  4	  0	  2
 === SHARED ===
-               Small file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   2 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   1 real,   0 user (+  0 children),   0 system (+  1 children)
-          10 medium files:   0 real,   0 user (+  1 children),   0 system (+  0 children)
-             10 big files:  16 real,   0 user (+ 15 children),   0 system (+  1 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   5 real,   0 user (+  2 children),   0 system (+  2 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  0	  0	  0	  0	  0
+         Medium file	  1	  0	  0	  0	  0
+            Big file	  2	  0	  2	  0	  0
+      10 small files	  1	  0	  1	  0	  0
+     10 medium files	  1	  0	  0	  0	  1
+        10 big files	 16	  0	 16	  0	  1
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  5	  0	  2	  0	  2
 === DYNAMIC ===
-               Small file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   2 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   1 real,   0 user (+  1 children),   0 system (+  0 children)
-          10 medium files:   1 real,   0 user (+  0 children),   0 system (+  1 children)
-             10 big files:  17 real,   0 user (+ 17 children),   0 system (+  0 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   5 real,   0 user (+  2 children),   0 system (+  2 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  1	  0	  0	  0	  0
+         Medium file	  0	  0	  0	  0	  0
+            Big file	  3	  0	  2	  0	  0
+      10 small files	  0	  0	  1	  0	  0
+     10 medium files	  1	  0	  0	  0	  0
+        10 big files	 16	  0	 15	  0	  1
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  4	  0	  2	  0	  3
 
 ===== Optimize level -Os =====
 === STATIC ===
-               Small file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   2 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-          10 medium files:   1 real,   0 user (+  1 children),   0 system (+  0 children)
-             10 big files:  16 real,   0 user (+ 15 children),   0 system (+  1 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   4 real,   0 user (+  2 children),   0 system (+  2 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  0	  0	  0	  0	  0
+         Medium file	  1	  0	  0	  0	  0
+            Big file	  2	  0	  2	  0	  0
+      10 small files	  1	  0	  0	  0	  1
+     10 medium files	  0	  0	  1	  0	  0
+        10 big files	 16	  0	 15	  0	  0
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  5	  0	  2	  0	  3
 === SHARED ===
-               Small file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   2 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   1 real,   0 user (+  1 children),   0 system (+  0 children)
-          10 medium files:   0 real,   0 user (+  0 children),   0 system (+  1 children)
-             10 big files:  16 real,   0 user (+ 15 children),   0 system (+  1 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   5 real,   0 user (+  3 children),   0 system (+  1 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  1	  0	  0	  0	  0
+         Medium file	  0	  0	  0	  0	  0
+            Big file	  3	  0	  3	  0	  1
+      10 small files	  1	  0	  0	  0	  0
+     10 medium files	  1	  0	  1	  0	  0
+        10 big files	 16	  0	 15	  0	  1
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  4	  0	  2	  0	  2
 === DYNAMIC ===
-               Small file:   1 real,   0 user (+  0 children),   0 system (+  0 children)
-              Medium file:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-                 Big file:   2 real,   0 user (+  2 children),   0 system (+  0 children)
-           10 small files:   1 real,   0 user (+  0 children),   0 system (+  1 children)
-          10 medium files:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-             10 big files:  17 real,   0 user (+ 16 children),   0 system (+  1 children)
-            Delete blocks:   0 real,   0 user (+  0 children),   0 system (+  0 children)
-      Add & delete blocks:   4 real,   0 user (+  2 children),   0 system (+  2 children)
+  tick counts (10ms)	real	user	uchld	system	schld
+          Small file	  0	  0	  0	  0	  0
+         Medium file	  1	  0	  0	  0	  0
+            Big file	  2	  0	  3	  0	  0
+      10 small files	  1	  0	  0	  0	  0
+     10 medium files	  0	  0	  0	  0	  1
+        10 big files	 17	  0	 16	  0	  0
+       Delete blocks	  0	  0	  0	  0	  0
+ Add & delete blocks	  5	  0	  3	  0	  2
