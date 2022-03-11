@@ -1,13 +1,12 @@
-.PHONY: stat dyn clean test rebuild
+.PHONY: all clean test zad2
+
+all: zad2
 
 clean:
 	$(MAKE) -C ../zad2 rclean
 
-stat:
-	$(MAKE) -C ../zad2 main-static
-
-dyn:
-	$(MAKE) -C ../zad2 main-dynamic main-shared
+zad2:
+	$(MAKE) -C ../zad2 all
 
 test:
 	(\
@@ -18,7 +17,4 @@ test:
 		./main-invocation.sh ./main-shared; \
 		echo === DYNAMIC ===; \
 		./main-invocation.sh ./main-dynamic; \
-	) > results3a.txt
-
-rebuild:
-	./rebuild.sh
+	) | tee results3a.txt
