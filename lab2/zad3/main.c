@@ -1,3 +1,4 @@
+// Mateusz Naściszewski, 2022
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
