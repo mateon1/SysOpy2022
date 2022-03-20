@@ -182,9 +182,10 @@ static gid_t gid;
 // Return whether to recurse into the path
 static bool process(const char* path) {
 	struct stat sb;
-	if (lstat(path, &sb) < 0) {
+	if (lstat(path, &sb) < 0) { // Usually fails due to file moving / getting deleted between readdir() and stat()
 		printf("%s\t?\t????\t?\t???\t???\n", path);
 		stats.n_fail++;
+		//fprintf(stderr, "failed stat: %s\n", path);
 		return false;
 	}
 	report(path, &sb);
@@ -225,8 +226,14 @@ static void walk(const char* path) {
 			char *popped = ss_pop(&fullpath);
 			assert(popped != NULL);
 		} else if (ent == NULL) {
-			perror("Failed to read directory");
-			exit(1);
+			perror("Failed to read directory"); // Happens for /net directory for zombie processes in /proc
+			fprintf(stderr, "%s\n", fullpath.data);
+			//exit(1);
+			stats.n_fail++;
+			if (depth == 0) break;
+			depth--;
+			char *popped = ss_pop(&fullpath);
+			assert(popped != NULL);
 		} else {
 			if (ent->d_name[0] == '.' && (ent->d_name[1] == '\0' || (ent->d_name[1] == '.' && ent->d_name[2] == '\0'))) {
 				continue; // Ignore . and .. entries
@@ -235,6 +242,13 @@ static void walk(const char* path) {
 			ss_push(&fullpath, ent->d_name);
 			//printf("%s\n", fullpath.data);
 			if (process(fullpath.data)) {
+				if (depth + 1 >= sizeof(dirs) / sizeof(dirs[0])) {
+					fprintf(stderr, "Too many levels of subdirectories! Not recursing!\n");
+					char *popped = ss_pop(&fullpath);
+					assert(popped != NULL);
+					stats.n_fail++;
+					continue;
+				}
 				//printf("Recursing into dir %s\n", fullpath.data);
 				dirs[++depth] = opendir(fullpath.data);
 				if (dirs[depth] == NULL) {
