@@ -1,0 +1,31 @@
+Benchmark #1: ./main-sys-256 x /var/cache/SteamSSD/steamapps/common/Proton\ 6.3/proton_dist.tar 
+  Time (mean ± σ):      2.068 s ±  0.057 s    [User: 914.5 ms, System: 1153.3 ms]
+  Range (min … max):    1.971 s …  2.149 s    10 runs
+ 
+Benchmark #2: ./main-lib-256 x /var/cache/SteamSSD/steamapps/common/Proton\ 6.3/proton_dist.tar 
+  Time (mean ± σ):      1.033 s ±  0.034 s    [User: 744.4 ms, System: 288.3 ms]
+  Range (min … max):    0.972 s …  1.079 s    10 runs
+ 
+Benchmark #3: ./main-sys-1k x /var/cache/SteamSSD/steamapps/common/Proton\ 6.3/proton_dist.tar 
+  Time (mean ± σ):      1.248 s ±  0.062 s    [User: 823.3 ms, System: 423.6 ms]
+  Range (min … max):    1.134 s …  1.336 s    10 runs
+ 
+Benchmark #4: ./main-lib-1k x /var/cache/SteamSSD/steamapps/common/Proton\ 6.3/proton_dist.tar 
+  Time (mean ± σ):      1.002 s ±  0.017 s    [User: 687.1 ms, System: 314.8 ms]
+  Range (min … max):    0.979 s …  1.033 s    10 runs
+ 
+Benchmark #5: ./main-sys-16k x /var/cache/SteamSSD/steamapps/common/Proton\ 6.3/proton_dist.tar 
+  Time (mean ± σ):      1.016 s ±  0.033 s    [User: 713.3 ms, System: 300.9 ms]
+  Range (min … max):    0.978 s …  1.080 s    10 runs
+ 
+Benchmark #6: ./main-lib-16k x /var/cache/SteamSSD/steamapps/common/Proton\ 6.3/proton_dist.tar 
+  Time (mean ± σ):     940.4 ms ±  36.7 ms    [User: 631.9 ms, System: 308.2 ms]
+  Range (min … max):   899.3 ms … 1005.8 ms    10 runs
+ 
+Summary
+  './main-lib-16k x /var/cache/SteamSSD/steamapps/common/Proton\ 6.3/proton_dist.tar ' ran
+    1.07 ± 0.05 times faster than './main-lib-1k x /var/cache/SteamSSD/steamapps/common/Proton\ 6.3/proton_dist.tar '
+    1.08 ± 0.05 times faster than './main-sys-16k x /var/cache/SteamSSD/steamapps/common/Proton\ 6.3/proton_dist.tar '
+    1.10 ± 0.06 times faster than './main-lib-256 x /var/cache/SteamSSD/steamapps/common/Proton\ 6.3/proton_dist.tar '
+    1.33 ± 0.08 times faster than './main-sys-1k x /var/cache/SteamSSD/steamapps/common/Proton\ 6.3/proton_dist.tar '
+    2.20 ± 0.10 times faster than './main-sys-256 x /var/cache/SteamSSD/steamapps/common/Proton\ 6.3/proton_dist.tar '
