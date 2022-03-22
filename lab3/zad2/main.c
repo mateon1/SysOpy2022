@@ -138,5 +138,5 @@ int main(int argc, char** argv) {
 
     printf("Result: %.18f\n", final / (double)samples);
 
-    return exitval;
+    return 0;
 }
