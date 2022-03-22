@@ -63,7 +63,7 @@ rzeczywisty, czas użytkownika i czas systemowy. Rezultaty umieść pliku
 
 ### Zadanie 3. Testy i pomiary (50%)
 
-a.  (25%) Przygotuj plik *Makefile*, zawierający polecenie uruchamiania
+1.  a: (25%) Przygotuj plik *Makefile*, zawierający polecenie uruchamiania
     testów oraz polecenia kompilacji programu z zad 2 na trzy sposoby:
     -   Z wykorzystaniem bibliotek statycznych,
     -   Z wykorzystaniem bibliotek dzielonych (dynamiczne, ładowane przy
@@ -73,7 +73,7 @@ a.  (25%) Przygotuj plik *Makefile*, zawierający polecenie uruchamiania
 
     Wyniki pomiarów zbierz w pliku results3a.txt. Otrzymane wyniki
     krótko skomentuj.
-b.  (25%) Rozszerz plik *Makefile* z punktu 3a) dodając możliwość
+2.  b: (25%) Rozszerz plik *Makefile* z punktu 3a) dodając możliwość
     skompilowania programu na trzech różnych poziomach optymalizacji —
     `-O0`…`-Os`. Przeprowadź ponownie pomiary, kompilując i uruchamiając
     program dla różnych poziomów optymalizacji.  
@@ -82,6 +82,6 @@ b.  (25%) Rozszerz plik *Makefile* z punktu 3a) dodając możliwość
 
 Wygenerowane pliki z raportami załącz jako element rozwiązania.
 
-**Uwaga:** Do odczytania pliku można użyć funkcji `read()` (<span
-class="kbd">man read</span>), do wywołania zewnętrznego polecenia Unixa
-można użyć funkcji `system()` (<span class="kbd">man system</span>).
+**Uwaga:** Do odczytania pliku można użyć funkcji `read()` (
+<kbd>man read</kbd>), do wywołania zewnętrznego polecenia Unixa
+można użyć funkcji `system()` (<kbd>man system</kbd>).
