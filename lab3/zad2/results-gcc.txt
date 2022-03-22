@@ -1,0 +1,18 @@
+rm -f main
+gcc -static -O3 -flto -Wextra -Wall    main.c -o main
+time ./main 500000000 1
+Result: 3.141592653306608085
+2.61user 0.00system 0:02.61elapsed 100%CPU (0avgtext+0avgdata 780maxresident)k
+0inputs+8outputs (0major+63minor)pagefaults 0swaps
+time ./main 2000000000 4
+Result: 3.141592653518997302
+11.63user 0.00system 0:03.25elapsed 357%CPU (0avgtext+0avgdata 780maxresident)k
+0inputs+32outputs (0major+117minor)pagefaults 0swaps
+time ./main 16000000000 32
+Result: 3.141592653580944194
+123.01user 0.05system 0:04.12elapsed 2985%CPU (0avgtext+0avgdata 776maxresident)k
+0inputs+256outputs (0major+653minor)pagefaults 0swaps
+time ./main 64000000000 128
+Result: 3.141592653587580664
+536.73user 1.03system 0:12.80elapsed 4199%CPU (0avgtext+0avgdata 784maxresident)k
+0inputs+1024outputs (0major+2350minor)pagefaults 0swaps

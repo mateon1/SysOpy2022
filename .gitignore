@@ -4,4 +4,6 @@
 *.so.*
 *.sw[po]
 *.tar.gz
+# lab3/zad2 worker tmpfiles
+w*.bin
 .*

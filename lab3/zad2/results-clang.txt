@@ -1,0 +1,18 @@
+rm -f main
+clang -O3 -flto -Wextra -Weverything -Wall    main.c -o main
+time ./main 500000000 1
+Result: 3.141592653306608085
+1.92user 0.00system 0:01.92elapsed 100%CPU (0avgtext+0avgdata 1456maxresident)k
+0inputs+8outputs (0major+109minor)pagefaults 0swaps
+time ./main 2000000000 4
+Result: 3.141592653518997302
+7.93user 0.01system 0:02.10elapsed 377%CPU (0avgtext+0avgdata 1388maxresident)k
+0inputs+32outputs (0major+199minor)pagefaults 0swaps
+time ./main 16000000000 32
+Result: 3.141592653580944194
+86.66user 0.04system 0:03.01elapsed 2874%CPU (0avgtext+0avgdata 1460maxresident)k
+0inputs+256outputs (0major+1099minor)pagefaults 0swaps
+time ./main 64000000000 128
+Result: 3.141592653587580664
+385.13user 0.69system 0:09.06elapsed 4256%CPU (0avgtext+0avgdata 1456maxresident)k
+0inputs+1024outputs (0major+4177minor)pagefaults 0swaps
