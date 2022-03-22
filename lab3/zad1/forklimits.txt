@@ -1,0 +1,15 @@
+$ \time ./main 600000 | tail
+fork failed: Resource temporarily unavailable
+Command exited with non-zero status 1
+59.68user 47.51system 0:38.15elapsed 280%CPU (0avgtext+0avgdata 1428maxresident)k
+208inputs+0outputs (25major+16247758minor)pagefaults 0swaps
+Hello from child 507623 (pid 2718739)
+Hello from child 507624 (pid 2718740)
+Hello from child 507625 (pid 2718741)
+Hello from child 507626 (pid 2718742)
+Hello from child 507627 (pid 2718743)
+Hello from child 507628 (pid 2718744)
+Hello from child 507629 (pid 2718745)
+Hello from child 507630 (pid 2718746)
+Hello from child 507631 (pid 2718747)
+Hello from child 507632 (pid 2718748)
