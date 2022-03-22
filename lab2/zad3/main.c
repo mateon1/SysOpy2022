@@ -278,7 +278,7 @@ int main(int argc, char** argv) {
 		exit(1);
 	}
 	walk(path);
-    free(path);
+	free(path);
 
 	printf("Files:      %u\n", stats.n_file);
 	printf("Dirs:       %u\n", stats.n_dir);
