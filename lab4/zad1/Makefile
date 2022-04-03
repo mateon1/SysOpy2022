@@ -10,13 +10,13 @@ clean:
 main-fork: main.c
 	$(LINK.c) -DFORK $< -o $@
 
-main-exec: main.c
+main-exec: main.c child
 	$(LINK.c) $< -o $@
 
 child: main.c
 	$(LINK.c) -DCHILD $< -o $@
 
-test: main
+test: main-fork main-exec
 	./main-fork 0
 	./main-fork 1
 	./main-fork 2
