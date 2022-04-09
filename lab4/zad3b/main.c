@@ -21,7 +21,7 @@
 #error "Need to provide one of -D RT, -D KILL, -D QUEUE preprocessor flags"
 #endif
 
-static int targetpid;
+static int targetpid = 0;
 static int counter = 0;
 static bool finished = false;
 static bool sending = false;
@@ -65,7 +65,7 @@ static void nap(void) {
 #ifdef QUEUE
 static void send(int sig) {
     int ret;
-    TRY(ret, sigqueue, targetpid, sig, (union sigval){0});
+    TRY(ret, sigqueue, targetpid, sig, (union sigval){counter});
 }
 #else
 static void send(int sig) {
@@ -83,8 +83,12 @@ static void confirm_inc(void) {
 
 typedef void (*sighandler_t)(int);
 
-static void handler_inc(int signum) {
+static void handler_inc(int signum, siginfo_t *info, void *uctx) {
     (void) signum;
+    (void) uctx;
+    if (targetpid == 0) {
+        targetpid = info->si_pid;
+    }
     if (sending) {
         // received confirmation
         confirmed = true;
@@ -94,30 +98,38 @@ static void handler_inc(int signum) {
     }
 }
 
-static void handler_fin(int signum) {
+static void handler_fin(int signum, siginfo_t *info, void *uctx) {
+    (void) signum;
+    (void) uctx;
+    if (targetpid == 0) {
+        targetpid = info->si_pid;
+    }
+#ifdef QUEUE
+    report("Received end signal %d, final counter is %d, expected counter %d\n", signum, counter, info->si_value.sival_int);
+#else
     report("Received end signal %d, final counter is %d\n", signum, counter);
+#endif
     finished = true;
 }
 
 static void child(void) {
-    sighandler_t old;
-    old = signal(SIGINC, &handler_inc);
-    if (old == SIG_ERR) {
-        perror("failed to define signal handler");
-        exit(1);
-    }
-    old = signal(SIGFIN, &handler_fin);
-    if (old == SIG_ERR) {
-        perror("failed to define signal handler");
-        exit(1);
-    }
+    struct sigaction sa;
+    sa.sa_flags = SA_SIGINFO;
+    int ret;
+    TRY(ret, sigemptyset, &sa.sa_mask);
+
+    sa.sa_sigaction = handler_inc;
+    TRY(ret, sigaction, SIGINC, &sa, NULL);
+    sa.sa_sigaction = handler_fin;
+    TRY(ret, sigaction, SIGFIN, &sa, NULL);
+
     while (!finished) nap();
     sending = true;
     for (int i = 0; i < counter; i++) {
         confirm_inc();
     }
-    sending = false;
     send(SIGFIN);
+    sending = false;
 }
 
 static void start_child(void) {
@@ -129,7 +141,6 @@ static void start_child(void) {
     int cpid;
     TRY(cpid, fork);
     if (cpid == 0) {
-        targetpid = getppid();
         child();
         exit(0);
     } else {
@@ -163,28 +174,30 @@ int main(int argc, char **argv) {
         printf("Usage: %s <increment count>\n", argc > 0 ? argv[0] : PROG);
         exit(2);
     }
-    sighandler_t old;
-    old = signal(SIGINC, &handler_inc);
-    if (old == SIG_ERR) {
-        perror("failed to define signal handler");
-        exit(1);
-    }
-    old = signal(SIGFIN, &handler_fin);
-    if (old == SIG_ERR) {
-        perror("failed to define signal handler");
-        exit(1);
-    }
+
+    struct sigaction sa;
+    sa.sa_flags = SA_SIGINFO;
+    int ret;
+    TRY(ret, sigemptyset, &sa.sa_mask);
+
+    sa.sa_sigaction = handler_inc;
+    TRY(ret, sigaction, SIGINC, &sa, NULL);
+
+    sa.sa_sigaction = handler_fin;
+    TRY(ret, sigaction, SIGFIN, &sa, NULL);
 
     start_child();
 
     nap();
 
     sending = true;
-    for (long i = 0; i < cnt; i++) {
+    counter = cnt;
+    for (long i = 0; i < counter; i++) {
         confirm_inc();
     }
-    sending = false;
     send(SIGFIN);
+    sending = false;
+    counter = 0;
 
     while (!finished) {
         nap();
