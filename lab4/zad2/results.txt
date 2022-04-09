@@ -1,0 +1,35 @@
+== SA_SIGINFO ==
+[PID 1940097] Registered SIGUSR1 handler
+[PID 1940097] raise(SIGUSR1);
+[PID 1940097] Received signal 10 with siginfo!
+[PID 1940097]   sig: 10, errno: 0, code: -6
+[PID 1940097]   value: 0, status: 0, sender pid: 1940097, uid: 1000
+[PID 1940097] sigqueue(self, SIGUSR1, {1000000007});
+[PID 1940097] Received signal 10 with siginfo!
+[PID 1940097]   sig: 10, errno: 0, code: -1
+[PID 1940097]   value: 1000000007, status: 1000000007, sender pid: 1940097, uid: 1000
+[PID 1940097] kill(self, SIGUSR1);
+[PID 1940097] Received signal 10 with siginfo!
+[PID 1940097]   sig: 10, errno: 0, code: 0
+[PID 1940097]   value: 0, status: 0, sender pid: 1940097, uid: 1000
+[PID 1940095] Child do_siginfo exited (0)
+
+== SA_RESTART ==
+[PID 1940098] Registered SIGUSR1 handler without SA_RESTART
+[PID 1940099] kill(parent, SIGUSR1);
+[PID 1940098] Received signal 10
+waitpid failed: Interrupted system call
+[PID 1940095] Child do_norestart exited (1)
+
+[PID 1940100] Registered SIGUSR1 handler with SA_RESTART
+[PID 1940101] kill(parent, SIGUSR1);
+[PID 1940100] Received signal 10
+[PID 1940100] Child parent_killer exited (0)
+[PID 1940095] Child do_restart exited (0)
+
+== SA_RESETHAND (AKA: SA_ONESHOT) ==
+[PID 1940102] Registered SIGUSR1 handler
+[PID 1940102] raise(SIGUSR1);
+[PID 1940102] Received signal 10
+[PID 1940102] raise(SIGUSR1);
+[PID 1940095] Child do_resethand killed by signal 10
