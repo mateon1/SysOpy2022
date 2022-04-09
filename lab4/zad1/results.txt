@@ -1,0 +1,54 @@
+./main-fork 0
+[parent, PID 1682615] Ignored signal
+[parent, PID 1682615] Raising signal
+[child, PID 1682616] Child forked
+[child, PID 1682616] Raising signal
+[parent, PID 1682615] Child exited (0)
+./main-fork 1
+[parent, PID 1682617] Set signal handler
+[parent, PID 1682617] Raising signal
+[parent, PID 1682617] Received signal 10
+[child, PID 1682618] Child forked
+[child, PID 1682618] Raising signal
+[child, PID 1682618] Received signal 10
+[parent, PID 1682617] Child exited (0)
+./main-fork 2
+[parent, PID 1682619] Set signal mask
+[parent, PID 1682619] Raising signal
+[parent, PID 1682619] Saw pending? 1
+[child, PID 1682620] Child forked
+[child, PID 1682620] Raising signal
+[parent, PID 1682619] Child exited (0)
+./main-fork 3
+[parent, PID 1682621] Set signal mask
+[parent, PID 1682621] Raising signal
+[child, PID 1682622] Child forked
+[child, PID 1682622] Saw pending? 0
+[parent, PID 1682621] Child exited (0)
+
+./main-exec 0
+[parent, PID 1682623] Ignored signal
+[parent, PID 1682623] Raising signal
+[child, PID 1682624] Child running
+[child, PID 1682624] Raising signal
+[parent, PID 1682623] Child exited (0)
+./main-exec 1
+[parent, PID 1682625] Set signal handler
+[parent, PID 1682625] Raising signal
+[parent, PID 1682625] Received signal 10
+[child, PID 1682626] Child running
+[child, PID 1682626] Raising signal
+[parent, PID 1682625] Child killed by signal 10
+./main-exec 2
+[parent, PID 1682627] Set signal mask
+[parent, PID 1682627] Raising signal
+[parent, PID 1682627] Saw pending? 1
+[child, PID 1682628] Child running
+[child, PID 1682628] Raising signal
+[parent, PID 1682627] Child exited (0)
+./main-exec 3
+[parent, PID 1682629] Set signal mask
+[parent, PID 1682629] Raising signal
+[child, PID 1682630] Child running
+[child, PID 1682630] Saw pending? 0
+[parent, PID 1682629] Child exited (0)

@@ -1,0 +1,3 @@
+Ignoring signals and setting signal masks is inherited by children, even after exec.
+Either way, the child does not see the parent's pending signals.
+With a fork() but no exec, signal handlers are preserved, but after exec the handlers are removed and signal behavior is returned to the default.

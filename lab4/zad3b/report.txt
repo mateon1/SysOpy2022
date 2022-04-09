@@ -1,0 +1,1 @@
+With this modification, where each signal sent waits for a confirmation, no signals are lost, since no more than one signal is in flight at the same time.

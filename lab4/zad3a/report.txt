@@ -1,0 +1,2 @@
+With ad-hoc sleeps between sending signals, the signals are nevertheless sometimes lost, mostly depending on scheduler decisions.
+Realtime signals always succeed.
