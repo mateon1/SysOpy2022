@@ -1,0 +1,7 @@
+a1 = cat /etc/passwd | wc -l
+a2 = ls | grep '^m'
+a3 = grep 11
+
+a1 | a3
+a1
+a2

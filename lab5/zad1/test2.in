@@ -1,0 +1,7 @@
+a1 = cat test*.in
+a2 = grep '^a' | rev
+linecnt = sort | uniq -c | sort -k1,1rn -k2
+
+a1 | a2 | linecnt
+a1 | linecnt
+
