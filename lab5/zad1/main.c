@@ -89,6 +89,23 @@ static void _hash_resize_if_needed(hashmap *m) {
 	m->tombs = 0;
 }
 
+static void hash_clear(hashmap *m) {
+	for (uint64_t i = 0; i < m->size; i++) {
+		_hashcell *res = &m->table[i];
+		if (res->val) {
+			if (m->elem_free) m->elem_free(res->val);
+		}
+		if (res->key) {
+			free(res->key);
+		}
+	}
+	free(m->table);
+	m->table = NULL;
+	m->size = 0;
+	m->tombs = 0;
+	m->elems = 0;
+}
+
 static void hash_add(hashmap *m, char *key, void *val) {
 	assert(val);
 	if (m->size == 0) _hash_resize_if_needed(m);
@@ -554,6 +571,8 @@ int main(int argc, char** argv) {
 		perror("Failed to read file");
 		exit(1);
 	}
+
+	hash_clear(&ctx.definitions);
 
 	return 0;
 }
