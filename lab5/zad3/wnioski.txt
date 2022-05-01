@@ -1,0 +1,4 @@
+Przy odpowiednim lockowaniu plików jesteśmy w stanie sprawić, że niezależnie od ilości producentów i konsumentów nie tracimy ani nie mieszamy danych.
+Musimy jednak uważać na kilka spraw:
+- Gdy mamy wielu konsumentów, a dane większe niż jeden bufor fifo, konsument może odczytać i 'ukraść' dane ze 'środka' przekazanych danych. Możemy powstrzymać tego lockując plik wyjściowy przed czytaniem z fifo.
+- W systemie Linux, gdy wykonamy dwie operacje write() do fifo które mieszczą się w buforze, operacje te łączą się w tym buforze. Psuje to założenie, że jeden read() z fifo odpowiada jednemu write() do fifo. Możemy tego uniknąć wykonując write() do fifo tylko wtedy gdy fifo jest puste, co możemy sprawdzić komendą systemową ioctl().

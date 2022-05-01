@@ -100,7 +100,7 @@ int main(int argc, char** argv) {
         if (p[-1] != '\n') {
 baddata:
             fprintf(stderr, "Received invalid data as input\n");
-            write(STDOUT_FILENO, buf, p - buf);
+            if (write(STDOUT_FILENO, buf, p - buf) < 0) perror("debug write failed");
             CLEANUP;
         }
 read_coalescing_redo_hack: {
