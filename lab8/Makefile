@@ -8,7 +8,7 @@ clean:
 	rm -f main
 
 main: main.c
-	$(LINK.c) $< -o $@
+	$(LINK.c) -lpthread $< -o $@
 
 test: main
 	./main 1 num fractal_tree.ascii.pgm out.pgm
