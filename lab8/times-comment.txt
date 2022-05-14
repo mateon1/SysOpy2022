@@ -1,0 +1,3 @@
+Widzimy, że wydajność metody 'num' nigdy się nie polepsza, ponieważ każdy wątek musi odczytać każdą wartość obrazka, więc wykonuje podobną ilość pracy jak przy jednym wątku.
+Dla metody 'blk', na testowanym obrazku, czasy wielowątkowe są lepsze od jednowątkowych do 8-miu wątków. Dla 16 lub więcej wątków, synchronizacja pamięci podręcznej w procesorze staje się kosztowniejsza niż same obliczenia.
+Na testowanym obrazku, najlepiej zachowała się metoda blokowa z 4-oma wątkami.

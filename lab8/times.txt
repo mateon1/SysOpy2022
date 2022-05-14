@@ -1,0 +1,197 @@
+./main 1 num fractal_tree.ascii.pgm out.pgm
+Thread 308511 took 8253.5 micros wall time, 8253.1 micros CPU time
+Main thread took 501.63 millis wall time, 461.79 millis CPU time total
+- Read input file:      95.95 millis wall time,  95.95 millis CPU time
+- Spawn, invert, join: 8633.0 micros wall time,  330.4 micros CPU time
+- Write output file:   397.03 millis wall time, 365.50 millis CPU time
+
+./main 1 blk fractal_tree.ascii.pgm out.pgm
+Thread 308519 took 7164.6 micros wall time, 7164.6 micros CPU time
+Main thread took 448.09 millis wall time, 436.97 millis CPU time total
+- Read input file:      98.04 millis wall time,  98.04 millis CPU time
+- Spawn, invert, join: 7552.4 micros wall time,  342.0 micros CPU time
+- Write output file:   342.49 millis wall time, 338.58 millis CPU time
+---
+./main 2 num fractal_tree.ascii.pgm out.pgm
+Thread 308535 took 8123.8 micros wall time, 8124.8 micros CPU time
+Thread 308534 took 8365.7 micros wall time, 8319.6 micros CPU time
+Main thread took 421.20 millis wall time, 407.62 millis CPU time total
+- Read input file:      91.73 millis wall time,  91.73 millis CPU time
+- Spawn, invert, join: 8804.5 micros wall time,  431.1 micros CPU time
+- Write output file:   320.67 millis wall time, 315.46 millis CPU time
+
+./main 2 blk fractal_tree.ascii.pgm out.pgm
+Thread 308544 took 3534.6 micros wall time, 3534.8 micros CPU time
+Thread 308543 took 3999.7 micros wall time, 3998.5 micros CPU time
+Main thread took 455.57 millis wall time, 446.05 millis CPU time total
+- Read input file:      96.69 millis wall time,  96.47 millis CPU time
+- Spawn, invert, join: 4502.6 micros wall time,  508.1 micros CPU time
+- Write output file:   354.37 millis wall time, 349.06 millis CPU time
+---
+./main 4 num fractal_tree.ascii.pgm out.pgm
+Thread 308575 took 6525.7 micros wall time, 6526.0 micros CPU time
+Thread 308572 took 6831.9 micros wall time, 6819.8 micros CPU time
+Thread 308573 took 7810.8 micros wall time, 7810.6 micros CPU time
+Thread 308574 took 8878.9 micros wall time, 8878.6 micros CPU time
+Main thread took 424.10 millis wall time, 398.76 millis CPU time total
+- Read input file:      96.24 millis wall time,  96.24 millis CPU time
+- Spawn, invert, join: 9310.2 micros wall time,  441.1 micros CPU time
+- Write output file:   318.55 millis wall time, 302.07 millis CPU time
+
+./main 4 blk fractal_tree.ascii.pgm out.pgm
+Thread 308578 took 3139.7 micros wall time, 3138.4 micros CPU time
+Thread 308580 took 3064.6 micros wall time, 3064.2 micros CPU time
+Thread 308581 took 3058.1 micros wall time, 3058.2 micros CPU time
+Thread 308579 took 3284.5 micros wall time, 3276.6 micros CPU time
+Main thread took 424.76 millis wall time, 398.78 millis CPU time total
+- Read input file:      94.40 millis wall time,  94.40 millis CPU time
+- Spawn, invert, join: 3840.7 micros wall time,  607.9 micros CPU time
+- Write output file:   326.51 millis wall time, 303.77 millis CPU time
+---
+./main 8 num fractal_tree.ascii.pgm out.pgm
+Thread 308597 took 7196.5 micros wall time, 7083.0 micros CPU time
+Thread 308592 took 8270.4 micros wall time, 8271.4 micros CPU time
+Thread 308593 took 8755.6 micros wall time, 8641.5 micros CPU time
+Thread 308590 took 8915.9 micros wall time, 8916.0 micros CPU time
+Thread 308594 took 8853.6 micros wall time, 8853.8 micros CPU time
+Thread 308596 took 9835.9 micros wall time, 9836.3 micros CPU time
+Thread 308591 took 10.54 millis wall time, 10.40 millis CPU time
+Thread 308595 took 11.24 millis wall time, 11.08 millis CPU time
+Main thread took 446.15 millis wall time, 402.24 millis CPU time total
+- Read input file:      97.78 millis wall time,  97.78 millis CPU time
+- Spawn, invert, join:  11.78 millis wall time,  621.9 micros CPU time
+- Write output file:   336.57 millis wall time, 303.82 millis CPU time
+
+./main 8 blk fractal_tree.ascii.pgm out.pgm
+Thread 308606 took 2490.1 micros wall time, 2457.7 micros CPU time
+Thread 308607 took 2446.1 micros wall time, 2429.9 micros CPU time
+Thread 308608 took 2386.1 micros wall time, 2380.2 micros CPU time
+Thread 308610 took 2297.9 micros wall time, 2230.8 micros CPU time
+Thread 308612 took 2202.9 micros wall time, 2202.9 micros CPU time
+Thread 308609 took 2351.7 micros wall time, 2352.1 micros CPU time
+Thread 308611 took 2258.9 micros wall time, 2149.8 micros CPU time
+Thread 308605 took 2519.3 micros wall time, 2484.0 micros CPU time
+Main thread took 418.61 millis wall time, 411.84 millis CPU time total
+- Read input file:      92.15 millis wall time,  92.14 millis CPU time
+- Spawn, invert, join: 2944.7 micros wall time,  657.7 micros CPU time
+- Write output file:   323.52 millis wall time, 319.03 millis CPU time
+---
+./main 16 num fractal_tree.ascii.pgm out.pgm
+Thread 308811 took 5074.7 micros wall time, 5075.8 micros CPU time
+Thread 308809 took 7774.5 micros wall time, 7395.7 micros CPU time
+Thread 308801 took 8704.1 micros wall time, 7638.7 micros CPU time
+Thread 308806 took 8464.7 micros wall time, 7653.9 micros CPU time
+Thread 308805 took 8870.9 micros wall time, 7812.6 micros CPU time
+Thread 308803 took 9001.3 micros wall time, 7817.6 micros CPU time
+Thread 308796 took 9497.0 micros wall time, 8066.8 micros CPU time
+Thread 308802 took 9238.4 micros wall time, 8048.9 micros CPU time
+Thread 308810 took 8664.6 micros wall time, 7388.0 micros CPU time
+Thread 308797 took 10.93 millis wall time, 9695.8 micros CPU time
+Thread 308799 took 11.03 millis wall time, 9611.0 micros CPU time
+Thread 308800 took 11.04 millis wall time, 9870.3 micros CPU time
+Thread 308798 took 11.52 millis wall time, 9748.4 micros CPU time
+Thread 308804 took 11.33 millis wall time, 10.10 millis CPU time
+Thread 308808 took 11.27 millis wall time, 10.55 millis CPU time
+Thread 308807 took 11.44 millis wall time, 11.00 millis CPU time
+Main thread took 433.89 millis wall time, 423.14 millis CPU time total
+- Read input file:     126.26 millis wall time, 126.26 millis CPU time
+- Spawn, invert, join:  12.70 millis wall time, 1964.1 micros CPU time
+- Write output file:   294.92 millis wall time, 294.92 millis CPU time
+
+./main 16 blk fractal_tree.ascii.pgm out.pgm
+Thread 308841 took 11.66 millis wall time, 10.92 millis CPU time
+Thread 308835 took 12.04 millis wall time, 11.42 millis CPU time
+Thread 308840 took 11.76 millis wall time, 11.10 millis CPU time
+Thread 308837 took 11.94 millis wall time, 11.38 millis CPU time
+Thread 308838 took 11.92 millis wall time, 11.08 millis CPU time
+Thread 308836 took 12.02 millis wall time, 11.09 millis CPU time
+Thread 308848 took 10.77 millis wall time, 10.68 millis CPU time
+Thread 308839 took 11.87 millis wall time, 10.56 millis CPU time
+Thread 308846 took 11.04 millis wall time, 10.82 millis CPU time
+Thread 308847 took 10.90 millis wall time, 10.72 millis CPU time
+Thread 308845 took 11.21 millis wall time, 10.34 millis CPU time
+Thread 308843 took 11.50 millis wall time, 10.57 millis CPU time
+Thread 308844 took 11.32 millis wall time, 10.99 millis CPU time
+Thread 308849 took 10.65 millis wall time, 10.65 millis CPU time
+Thread 308850 took 10.42 millis wall time, 9556.9 micros CPU time
+Thread 308842 took 11.59 millis wall time, 10.33 millis CPU time
+Main thread took 460.08 millis wall time, 449.04 millis CPU time total
+- Read input file:     103.30 millis wall time, 103.22 millis CPU time
+- Spawn, invert, join:  12.67 millis wall time, 1858.1 micros CPU time
+- Write output file:   344.10 millis wall time, 343.97 millis CPU time
+---
+./main 32 num fractal_tree.ascii.pgm out.pgm
+Thread 308889 took 6603.1 micros wall time, 6605.8 micros CPU time
+Thread 308858 took 8267.1 micros wall time, 7963.8 micros CPU time
+Thread 308859 took 8298.8 micros wall time, 8050.9 micros CPU time
+Thread 308862 took 8260.3 micros wall time, 8056.7 micros CPU time
+Thread 308871 took 8048.7 micros wall time, 7975.8 micros CPU time
+Thread 308860 took 8558.6 micros wall time, 8392.9 micros CPU time
+Thread 308876 took 8006.8 micros wall time, 8007.5 micros CPU time
+Thread 308870 took 8506.3 micros wall time, 8420.4 micros CPU time
+Thread 308878 took 7901.4 micros wall time, 7902.2 micros CPU time
+Thread 308887 took 7598.5 micros wall time, 7496.8 micros CPU time
+Thread 308868 took 8798.5 micros wall time, 8144.9 micros CPU time
+Thread 308875 took 8675.2 micros wall time, 8674.9 micros CPU time
+Thread 308864 took 9081.4 micros wall time, 8915.1 micros CPU time
+Thread 308888 took 7784.4 micros wall time, 7770.3 micros CPU time
+Thread 308865 took 9268.0 micros wall time, 9066.6 micros CPU time
+Thread 308872 took 9200.9 micros wall time, 9087.3 micros CPU time
+Thread 308884 took 8460.3 micros wall time, 8382.3 micros CPU time
+Thread 308879 took 8718.0 micros wall time, 8552.1 micros CPU time
+Thread 308869 took 9550.9 micros wall time, 9435.9 micros CPU time
+Thread 308867 took 9610.1 micros wall time, 8658.9 micros CPU time
+Thread 308866 took 9713.5 micros wall time, 9293.2 micros CPU time
+Thread 308874 took 9902.3 micros wall time, 9571.5 micros CPU time
+Thread 308886 took 9041.8 micros wall time, 7939.5 micros CPU time
+Thread 308885 took 9100.6 micros wall time, 9101.1 micros CPU time
+Thread 308873 took 10.15 millis wall time, 9554.8 micros CPU time
+Thread 308863 took 10.47 millis wall time, 9541.5 micros CPU time
+Thread 308881 took 9532.0 micros wall time, 9531.8 micros CPU time
+Thread 308861 took 11.03 millis wall time, 9884.9 micros CPU time
+Thread 308880 took 10.24 millis wall time, 10.24 millis CPU time
+Thread 308882 took 10.20 millis wall time, 10.20 millis CPU time
+Thread 308877 took 10.67 millis wall time, 10.39 millis CPU time
+Thread 308883 took 10.52 millis wall time, 10.46 millis CPU time
+Main thread took 423.40 millis wall time, 411.07 millis CPU time total
+- Read input file:      96.40 millis wall time,  95.71 millis CPU time
+- Spawn, invert, join:  12.36 millis wall time, 2230.9 micros CPU time
+- Write output file:   314.63 millis wall time, 313.12 millis CPU time
+
+./main 32 blk fractal_tree.ascii.pgm out.pgm
+Thread 308897 took 24.82 millis wall time, 20.69 millis CPU time
+Thread 308911 took 23.48 millis wall time, 21.22 millis CPU time
+Thread 308902 took 24.58 millis wall time, 20.31 millis CPU time
+Thread 308909 took 23.78 millis wall time, 21.38 millis CPU time
+Thread 308898 took 24.79 millis wall time, 22.01 millis CPU time
+Thread 308904 took 24.38 millis wall time, 22.08 millis CPU time
+Thread 308916 took 22.47 millis wall time, 20.84 millis CPU time
+Thread 308907 took 24.06 millis wall time, 20.39 millis CPU time
+Thread 308906 took 24.18 millis wall time, 20.16 millis CPU time
+Thread 308908 took 23.93 millis wall time, 21.06 millis CPU time
+Thread 308899 took 24.78 millis wall time, 22.16 millis CPU time
+Thread 308915 took 22.62 millis wall time, 19.87 millis CPU time
+Thread 308914 took 23.02 millis wall time, 21.41 millis CPU time
+Thread 308903 took 24.49 millis wall time, 20.54 millis CPU time
+Thread 308901 took 24.66 millis wall time, 20.65 millis CPU time
+Thread 308912 took 23.25 millis wall time, 21.45 millis CPU time
+Thread 308900 took 24.74 millis wall time, 20.98 millis CPU time
+Thread 308910 took 23.67 millis wall time, 21.70 millis CPU time
+Thread 308905 took 24.29 millis wall time, 22.11 millis CPU time
+Thread 308928 took 19.31 millis wall time, 17.33 millis CPU time
+Thread 308927 took 19.58 millis wall time, 19.15 millis CPU time
+Thread 308913 took 23.20 millis wall time, 21.48 millis CPU time
+Thread 308922 took 20.91 millis wall time, 20.28 millis CPU time
+Thread 308920 took 21.38 millis wall time, 20.58 millis CPU time
+Thread 308926 took 19.90 millis wall time, 19.80 millis CPU time
+Thread 308921 took 21.15 millis wall time, 20.42 millis CPU time
+Thread 308923 took 20.63 millis wall time, 19.99 millis CPU time
+Thread 308919 took 21.63 millis wall time, 20.74 millis CPU time
+Thread 308924 took 20.40 millis wall time, 19.91 millis CPU time
+Thread 308918 took 22.05 millis wall time, 20.40 millis CPU time
+Thread 308917 took 22.30 millis wall time, 20.61 millis CPU time
+Thread 308925 took 20.15 millis wall time, 18.89 millis CPU time
+Main thread took 443.75 millis wall time, 420.97 millis CPU time total
+- Read input file:      97.84 millis wall time,  97.84 millis CPU time
+- Spawn, invert, join:  25.69 millis wall time, 4454.4 micros CPU time
+- Write output file:   320.22 millis wall time, 318.67 millis CPU time

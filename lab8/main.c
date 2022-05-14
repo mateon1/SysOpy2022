@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <time.h>
 #include <ctype.h>
+#include <pthread.h>
 
 static void writeall(int fd, char *buf, size_t size) {
 	ssize_t ret;
@@ -25,7 +26,7 @@ retry:
 	assert(size == 0);
 }
 
-static bool parse_int(char *str, long *out, char **end, bool whole) {
+static bool parse_int(const char *str, long *out, char **end, bool whole) {
 	if (*str == '\0') return false;
 	char *endptr;
 	errno = 0;
@@ -40,7 +41,7 @@ enum partype {
 	BLOCK,
 };
 
-static bool parse_partype(char *str, enum partype *out) {
+static bool parse_partype(const char *str, enum partype *out) {
 	if (strcmp(str, "num") == 0) {
 		*out = NUMBERS;
 		return true;
@@ -52,11 +53,112 @@ static bool parse_partype(char *str, enum partype *out) {
 	return false;
 }
 
+static int sprint_dur(char *buf, struct timespec from, struct timespec to) {
+	long secs = to.tv_sec - from.tv_sec, nanos = to.tv_nsec - from.tv_nsec;
+	if (nanos < 0) {
+		secs--;
+		nanos += 1000000000;
+	}
+	if (secs == 0 && nanos < 10000) {
+		return sprintf(buf, "%ld nanos", nanos);
+	} else if (secs == 0 && nanos < 10000000) {
+		return sprintf(buf, "%ld.%ld micros", nanos / 1000, nanos / 100 % 10);
+	} else {
+		long millis = 1000 * secs + nanos / 1000000;
+		return sprintf(buf, "%ld.%02ld millis", millis, nanos/10000%100);
+	}
+}
+
+struct thread_ctx {
+	const char *in;
+	char *out;
+	ssize_t len;
+	int maxval;
+	union {
+		struct { int min, max; } val;
+		struct { int rowlen, stride; } blk;
+	} un;
+};
+
+static void* val_thread(void *_ctx) {
+	struct thread_ctx *ctx = (struct thread_ctx*)_ctx;
+	struct timespec tstart;
+	struct timespec tstart_cpu;
+	if (clock_gettime(CLOCK_MONOTONIC_RAW, &tstart) < 0) { perror("Failed to get time"); exit(1); }
+	if (clock_gettime(CLOCK_THREAD_CPUTIME_ID, &tstart_cpu) < 0) { perror("Failed to get time"); exit(1); }
+	if (ctx->maxval <= 255) {
+		for (ssize_t i = 0; i < ctx->len; i++) {
+			int val = (unsigned char)ctx->in[i];
+			if (ctx->un.val.min <= val && val < ctx->un.val.max) {
+				ctx->out[i] = ctx->maxval - val;
+			}
+		}
+	} else {
+		for (ssize_t i = 0; i+1 < ctx->len; i += 2) {
+			int val = ((unsigned char)ctx->in[i] << 8) | (unsigned char)ctx->in[i+1];
+			if (ctx->un.val.min <= val && val < ctx->un.val.max) {
+				val = ctx->maxval - val;
+				ctx->out[i] = val >> 8;
+				ctx->out[i+1] = val & 255;
+			}
+		}
+	}
+	struct timespec tend;
+	struct timespec tend_cpu;
+	if (clock_gettime(CLOCK_MONOTONIC_RAW, &tend) < 0) { perror("Failed to get time"); exit(1); }
+	if (clock_gettime(CLOCK_THREAD_CPUTIME_ID, &tend_cpu) < 0) { perror("Failed to get time"); exit(1); }
+	char buf[80];
+	char *p = buf;
+	p += sprintf(p, "Thread %d took ", gettid());
+	p += sprint_dur(p, tstart, tend);
+	p += sprintf(p, " wall time, ");
+	p += sprint_dur(p, tstart_cpu, tend_cpu);
+	p += sprintf(p, " CPU time\n");
+	writeall(STDOUT_FILENO, buf, strlen(buf));
+	return _ctx;
+}
+
+static void* blk_thread(void *_ctx) {
+	struct thread_ctx *ctx = (struct thread_ctx*)_ctx;
+	struct timespec tstart;
+	struct timespec tstart_cpu;
+	if (clock_gettime(CLOCK_MONOTONIC_RAW, &tstart) < 0) { perror("Failed to get time"); exit(1); }
+	if (clock_gettime(CLOCK_THREAD_CPUTIME_ID, &tstart_cpu) < 0) { perror("Failed to get time"); exit(1); }
+	for (ssize_t base = 0; base + ctx->un.blk.rowlen <= ctx->len; base += ctx->un.blk.stride) {
+		if (ctx->maxval <= 255) {
+			for (ssize_t i = base; i < base + ctx->un.blk.rowlen; i++) {
+				int val = ctx->in[i];
+				ctx->out[i] = ctx->maxval - val;
+			}
+		} else {
+			for (ssize_t i = base; i < base + ctx->un.blk.rowlen; i += 2) {
+				int val = (ctx->in[i] << 8) | ctx->in[i+1];
+				val = ctx->maxval - val;
+				ctx->out[i] = val >> 8;
+				ctx->out[i+1] = val & 255;
+			}
+		}
+	}
+	struct timespec tend;
+	struct timespec tend_cpu;
+	if (clock_gettime(CLOCK_MONOTONIC_RAW, &tend) < 0) { perror("Failed to get time"); exit(1); }
+	if (clock_gettime(CLOCK_THREAD_CPUTIME_ID, &tend_cpu) < 0) { perror("Failed to get time"); exit(1); }
+	char buf[80];
+	char *p = buf;
+	p += sprintf(p, "Thread %d took ", gettid());
+	p += sprint_dur(p, tstart, tend);
+	p += sprintf(p, " wall time, ");
+	p += sprint_dur(p, tstart_cpu, tend_cpu);
+	p += sprintf(p, " CPU time\n");
+	writeall(STDOUT_FILENO, buf, strlen(buf));
+	return _ctx;
+}
+
 int main(int argc, char** argv) {
 	long threads;
 	enum partype method;
 	if (argc != 5 || !parse_int(argv[1], &threads, NULL, true) || threads < 1 || !parse_partype(argv[2], &method)) {
-		printf("Usage: %s <input file>\n", argc > 0 ? argv[0] : "main");
+		printf("Usage: %s <threads> <method: blk | num> <input file> <output file>\n", argc > 0 ? argv[0] : "main");
 		exit(2);
 	}
 
@@ -89,18 +191,37 @@ int main(int argc, char** argv) {
 	ssize_t imagewritten = 0;
 	char *image = NULL;
 
+	bool incomment = false;
+
 	while ((nread = read(infd, buf+buffered, sizeof(buf)-buffered-1)) > 0) {
+#define CHK(n) do { if (p + (n) > end) goto moredata; } while (0);
 		buffered += nread;
 		int len = buffered;
 		char *p = buf;
 		char *end = p + len;
 		p[len] = '\0';
 		while (1) {
+			// always between header tokens here, consume as much whitespace as possible
+			if (state > 0 && state < 4) {
+				CHK(1);
+				while (isspace(*p)) { p++; CHK(1); }
+				if (*p == '#') incomment = true; // detect comments after spaces
+			}
+			while (incomment) {
+				CHK(1);
+				if (*p++ == '\n') {
+					incomment = false;
+					if (state == 4 && !isspace(*p++)) goto badformat; // consume one extra whitespace if comment is before image data
+				}
+			}
+			//char xxx[40];
 			//printf("state %d written %ld\n", state, imagewritten);
+			//snprintf(xxx,40,"%s",p);
+			//xxx[39]='\0';
+			//printf("%s\n", xxx);
 			switch (state) {
 			case 0:
-				if (len < 3)
-					goto moredata;
+				CHK(3);
 				if (*p++ != 'P')
 					goto badformat;
 				switch (*p++) {
@@ -112,7 +233,9 @@ int main(int argc, char** argv) {
 				case '6': binary = true; channels = 3; break;
 				default: goto badformat;
 				}
-				if (!isspace(*p++)) goto badformat;
+				if (*p == '#') incomment = true;
+				else if (!isspace(*p)) goto badformat;
+				p++;
 				state = 1;
 				break;
 			case 1: case 2: case 3:
@@ -120,7 +243,10 @@ int main(int argc, char** argv) {
 				long val;
 				if (!parse_int(p, &val, &rest, false)) goto badformat;
 				if (rest >= end) goto moredata;
-				if (val <= 0 || !isspace(*rest++)) goto badformat;
+				if (val <= 0) goto badformat;
+				if (*rest == '#') incomment = true;
+				else if (!isspace(*rest)) goto badformat;
+				rest++;
 				p = rest;
 				if (state == 1)
 					width = val;
@@ -135,7 +261,6 @@ int main(int argc, char** argv) {
 				}
 				break;
 			case 4:
-#define CHK(n) do { if (p + (n) > end) goto moredata; } while (0);
 				int lim = width * height * channels * (maxval <= 255 ? 1 : 2);
 				while (imagewritten < lim) {
 					//if (end - rest < 10) printf("state %d written %ld, %s\n", state, imagewritten, p);
@@ -190,34 +315,82 @@ badformat:
 	exit(1);
 
 readfinish:
+	if (close(infd) < 0) {
+		perror("Close failed");
+		exit(1);
+	}
 	struct timespec read;
 	struct timespec read_cpu;
 	if (clock_gettime(CLOCK_MONOTONIC_RAW, &read) < 0) { perror("Failed to get time"); exit(1); }
 	if (clock_gettime(CLOCK_THREAD_CPUTIME_ID, &read_cpu) < 0) { perror("Failed to get time"); exit(1); }
 
-	printf("START    : %10jd.%09ld\n", start.tv_sec, start.tv_nsec);
-	printf("START_CPU: %10jd.%09ld\n", start_cpu.tv_sec, start_cpu.tv_nsec);
-	printf("READ     : %10jd.%09ld\n", read.tv_sec, read.tv_nsec);
-	printf("READ_CPU : %10jd.%09ld\n", read_cpu.tv_sec, read_cpu.tv_nsec);
+	char *out = malloc(imagewritten);
 
-	// TODO: Threads: invert
-	for (int i = 0; i < imagewritten;) {
-		if (maxval <= 255) {
-			image[i] = maxval - image[i];
-			i++;
-		} else {
-			int val = maxval - ((image[i] << 8) | image[i+1]);
-			image[i++] = val >> 8;
-			image[i++] = val & 255;
-		}
+struct thread_ctx {
+	const char *in;
+	char *out;
+	ssize_t len;
+	int maxval;
+	union {
+		struct { int min, max; } val;
+		struct { int rowlen, stride; } blk;
+	} un;
+};
+
+	pthread_t *threadbuf = malloc(threads * sizeof(pthread_t));
+	switch (method) {
+		case NUMBERS:
+			for (ssize_t i = 0; i < threads; i++) {
+				struct thread_ctx *ctx = malloc(sizeof(struct thread_ctx));
+				ctx->in = image;
+				ctx->out = out;
+				ctx->len = imagewritten;
+				ctx->maxval = maxval;
+				ctx->un.val.min = (maxval + 1) * i / threads;
+				ctx->un.val.max = (maxval + 1) * (i + 1) / threads;
+				if (pthread_create(&threadbuf[i], NULL, val_thread, ctx) != 0) {
+					perror("Failed to create thread");
+					exit(1);
+				}
+			}
+			break;
+		case BLOCK:
+			for (ssize_t i = 0; i < threads; i++) {
+				struct thread_ctx *ctx = malloc(sizeof(struct thread_ctx));
+				int offs = width * i / threads;
+				int rowlen = width * (i + 1) / threads - offs;
+				ctx->in = image + offs;
+				ctx->out = out + offs;
+				ctx->len = imagewritten - offs;
+				ctx->maxval = maxval;
+				ctx->un.blk.rowlen = rowlen;
+				ctx->un.blk.stride = width;
+				if (pthread_create(&threadbuf[i], NULL, blk_thread, ctx) != 0) {
+					perror("Failed to create thread");
+					exit(1);
+				}
+			}
+			break;
+		default:
+			assert(false && "Impossible case");
+			_exit(1);
 	}
+
+	for (ssize_t i = 0; i < threads; i++) {
+		struct thread_ctx *ctx;
+		if (pthread_join(threadbuf[i], (void**)&ctx) != 0) {
+			perror("Failed to join thread");
+			exit(1);
+		}
+		free(ctx);
+	}
+	free(threadbuf);
+	free(image);
 
 	struct timespec invert;
 	struct timespec invert_cpu;
 	if (clock_gettime(CLOCK_MONOTONIC_RAW, &invert) < 0) { perror("Failed to get time"); exit(1); }
 	if (clock_gettime(CLOCK_THREAD_CPUTIME_ID, &invert_cpu) < 0) { perror("Failed to get time"); exit(1); }
-	printf("INV      : %10jd.%09ld\n", invert.tv_sec, invert.tv_nsec);
-	printf("INV_CPU  : %10jd.%09ld\n", invert_cpu.tv_sec, invert_cpu.tv_nsec);
 
 	char header[32];
 	if (bit) { binary = true; bit = false; hasmaxval = true; } // P4 -> P5
@@ -226,31 +399,65 @@ readfinish:
 	sprintf(header + headerbytes, "\n");
 	writeall(outfd, header, strlen(header));
 	if (binary) {
-		writeall(outfd, image, imagewritten);
+		writeall(outfd, out, imagewritten);
 	} else {
-		char buf[12];
+		char buffer[4096];
+		int buffered = 0;
 		int column = 0;
 		for (int i = 0; i < imagewritten; ) {
 			int val;
 			if (maxval <= 255) {
-				val = image[i];
+				val = (unsigned char)out[i];
 				i++;
 			} else {
-				val = (image[i] << 8) | image[i+1];
+				val = ((unsigned char)out[i] << 8) | (unsigned char)out[i+1];
 				i++; i++;
 			}
 			bool nl = column > 160 || i == imagewritten;
-			column += sprintf(buf, "%d%c", val, nl ? '\n': ' ');
+			int written = sprintf(buffer + buffered, "%d%c", val, nl ? '\n': ' ');
+			buffered += written;
+			column += written;
 			if (nl) column = 0;
+			if (buffered > 4000) {
+				writeall(outfd, buffer, buffered);
+				buffered = 0;
+			}
 		}
+		if (buffered > 0) {
+			writeall(outfd, buffer, buffered);
+			buffered = 0;
+		}
+	}
+
+	if (close(outfd) < 0) {
+		perror("Close failed");
+		exit(1);
 	}
 
 	struct timespec write;
 	struct timespec write_cpu;
 	if (clock_gettime(CLOCK_MONOTONIC_RAW, &write) < 0) { perror("Failed to get time"); exit(1); }
 	if (clock_gettime(CLOCK_THREAD_CPUTIME_ID, &write_cpu) < 0) { perror("Failed to get time"); exit(1); }
-	printf("WRITE    : %10jd.%09ld\n", write.tv_sec, write.tv_nsec);
-	printf("WRITE_CPU: %10jd.%09ld\n", write_cpu.tv_sec, write_cpu.tv_nsec);
+
+	free(out);
+
+	char durbuf[32];
+	sprint_dur(durbuf, start, write);
+	printf("Main thread took %13s wall time, ", durbuf);
+	sprint_dur(durbuf, start_cpu, write_cpu);
+	printf("%13s CPU time total\n", durbuf);
+	sprint_dur(durbuf, start, read);
+	printf("- Read input file:     %13s wall time, ", durbuf);
+	sprint_dur(durbuf, start_cpu, read_cpu);
+	printf("%13s CPU time\n", durbuf);
+	sprint_dur(durbuf, read, invert);
+	printf("- Spawn, invert, join: %13s wall time, ", durbuf);
+	sprint_dur(durbuf, read_cpu, invert_cpu);
+	printf("%13s CPU time\n", durbuf);
+	sprint_dur(durbuf, invert, write);
+	printf("- Write output file:   %13s wall time, ", durbuf);
+	sprint_dur(durbuf, invert_cpu, write_cpu);
+	printf("%13s CPU time\n", durbuf);
 
 	return 0;
 }
