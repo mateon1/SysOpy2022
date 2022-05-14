@@ -1,0 +1,2 @@
+Dla małych wartośći N, M pojemność pieca nie jest problemem. Jeżeli M <= N, to w pewnym momencie pojawia się czekanie, aż dostawca zabierze pizzę ze stołu.
+Dla dużych wartości N, M, pojemność pieca jest głównym ograniczeniem, dodanie dodatkowych kucharzy i dostawców nic nie zmienia, i można tylko upiec około jednej pizzy na sekundę.
