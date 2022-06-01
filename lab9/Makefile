@@ -8,7 +8,7 @@ clean:
 	rm -f main
 
 main: main.c
-	$(LINK.c) $< -o $@
+	$(LINK.c) -D_GNU_SOURCE -D_XOPEN_SOURCE=500 $< -o $@
 
 test: main
 	./main
