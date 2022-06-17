@@ -7,11 +7,14 @@ all: server client
 clean:
 	rm -f server client
 
-server: main.c
-	$(LINK.c) -DSERVER $< -o $@
+server: server.c
+	$(LINK.c) $< -o $@
 
-client: main.c
-	$(LINK.c) -DCLIENT $< -o $@
+client: client.c
+	$(LINK.c) $< -o $@
 
 test: server client
-	@echo "Please run ./server <port> <sock> and ./client <id> <url|sock> manually"
+	@echo "Please run ./server and ./client manually"
+	# print usages
+	@./client || true
+	@./server || true
